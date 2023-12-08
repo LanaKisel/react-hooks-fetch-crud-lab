@@ -15,10 +15,12 @@ function QuestionForm({onAddQuestion}) {
       ...formData,
       [event.target.name]: event.target.value,
     });
+    //console.log(formData)
   }
 
   function handleSubmit(event) {
     event.preventDefault();
+    console.log(formData, formData.prompt)
     const newQ = 
     {
       prompt: formData.prompt,
@@ -27,15 +29,13 @@ function QuestionForm({onAddQuestion}) {
     }
     fetch("http://localhost:4000/questions", {
       method: "POST",
-      Headers:
+      headers:
         { "Content-Type": "application/json" },
-      Body: JSON.stringify(newQ)
+      body: JSON.stringify(newQ)})
       .then((r)=>r.json())
-      .then((newQ)=> onAddQuestion(newQ))       
-
-    })
-
-    console.log(formData);
+      .then((serverQ)=> {onAddQuestion(serverQ) 
+        console.log("serevrQ: ", serverQ)}) 
+    ;
   }
 
   return (
