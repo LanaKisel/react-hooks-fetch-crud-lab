@@ -1,6 +1,6 @@
 import React from "react";
 
-function QuestionItem({ question }) {
+function QuestionItem({ question, onDeleteQuestion }) {
   const { id, prompt, answers, correctIndex } = question;
   console.log(question)
 
@@ -12,7 +12,11 @@ function QuestionItem({ question }) {
 
   function handleDelete() {
     console.log("questItem q:", question)
-
+    fetch(`http://localhost:4000/questions/${question.id}`,{
+      method: "DELETE",      
+    })
+    .then(r=>r.json())
+    .then(()=> onDeleteQuestion(question))
   }
 
   return (

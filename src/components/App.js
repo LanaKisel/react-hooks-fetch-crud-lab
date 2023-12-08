@@ -6,7 +6,6 @@ import QuestionList from "./QuestionList";
 function App() {
   const [page, setPage] = useState("List");
   const [props, setProps] = useState([]);
-  //const [questions, setQuestions]= useState([]);
 
   useEffect(() => {
     console.log("fetch")
@@ -15,34 +14,35 @@ function App() {
       .then((data) => {
         console.log(data)
         setProps(data)
-        //setQuestions(data.map((questions)=>questions.prompt))
       })
-    }, [])
+  }, [])
 
- // console.log("In app:", questions);
+  function handleAddQuestion(serverQ) {
+    let quesAlredyExist = false;
+    for (let element in props) {
+      if (element.id === serverQ.id) {
+        element = serverQ
+        quesAlredyExist = true
+      } else {
+      }
+      console.log("element", element)
+    }
+    if (quesAlredyExist === false) {
+      setProps([...props, serverQ])
+    }
+  }
 
-    function handleAddQuestion(serverQ) {
-      let quesAlredyExist = false;
-      for ( let element in props) {
-        if (element.id === serverQ.id ) {
-          element=serverQ
-          quesAlredyExist = true
-        } else {
-        }       
-        console.log("element", element)      
-      }
-      if (quesAlredyExist === false) {
-        setProps([...props, serverQ])
-      }
-      
-    //setQuestions([...questions, serverQ])
+  function handleDeleteQuestion(deletedQuestion) {
+    const updatedQuestions = props.filter((item) => item.id !== deletedQuestion.id);
+  setProps(updatedQuestions);
+    console.log("In app:", deletedQuestion);
   }
 
 
   return (
     <main>
       <AdminNavBar onChangePage={setPage} />
-      {page === "Form" ? <QuestionForm props={props} onAddQuestion={handleAddQuestion}/> : <QuestionList  props={props}  />}
+      {page === "Form" ? <QuestionForm props={props} onAddQuestion={handleAddQuestion} /> : <QuestionList props={props} onDeleteQuestion={handleDeleteQuestion}/>}
     </main>
   );
 }
