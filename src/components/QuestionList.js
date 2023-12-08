@@ -1,10 +1,15 @@
-import React from "react";
+import React, {useState} from "react";
+import QuestionItem from "./QuestionItem";
 
-function QuestionList() {
+function QuestionList({ props }) {
+
+  const newQuestions = props.map(question => <QuestionItem key={question.id} question={question} />)
+
+
   return (
     <section>
       <h1>Quiz Questions</h1>
-      <ul>{/* display QuestionItem components here after fetching */}</ul>
+      <ul>{newQuestions}</ul>
     </section>
   );
 }
