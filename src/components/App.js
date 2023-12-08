@@ -12,7 +12,6 @@ function App() {
     fetch("http://localhost:4000/questions")
       .then(r => r.json())
       .then((data) => {
-        console.log(data)
         setProps(data)
       })
   }, [])
@@ -25,7 +24,6 @@ function App() {
         quesAlredyExist = true
       } else {
       }
-      console.log("element", element)
     }
     if (quesAlredyExist === false) {
       setProps([...props, serverQ])
@@ -34,15 +32,24 @@ function App() {
 
   function handleDeleteQuestion(deletedQuestion) {
     const updatedQuestions = props.filter((item) => item.id !== deletedQuestion.id);
-  setProps(updatedQuestions);
-    console.log("In app:", deletedQuestion);
+    setProps(updatedQuestions);
   }
 
+  function handleUpdateSelect(updatedOption) {
+    for (let element in props) {
+      if (element.id === updatedOption.id) {
+        element = updatedOption
+      } else {
+
+      }
+    }
+    setProps([...props, updatedOption])
+  }
 
   return (
     <main>
       <AdminNavBar onChangePage={setPage} />
-      {page === "Form" ? <QuestionForm props={props} onAddQuestion={handleAddQuestion} /> : <QuestionList props={props} onDeleteQuestion={handleDeleteQuestion}/>}
+      {page === "Form" ? <QuestionForm props={props} onAddQuestion={handleAddQuestion} /> : <QuestionList props={props} onChangeSelect={handleUpdateSelect} onDeleteQuestion={handleDeleteQuestion} />}
     </main>
   );
 }
